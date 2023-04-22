@@ -1,6 +1,6 @@
 package it.uniroma3.diadia.giocatore;
 
-import it.uniroma3.diadia.IOConsole.IOConsole;
+import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class Borsa {
@@ -71,7 +71,6 @@ public class Borsa {
 	}
 	
 	public boolean removeAttrezzo(String nomeAttrezzo) {
-		iO.showMsg("Rimozione in corso");
 		if(numeroAttrezzi==0) {
 			iO.showMsg("La borsa è vuota, nessun attrezzo da rimuovere");
 			return false;

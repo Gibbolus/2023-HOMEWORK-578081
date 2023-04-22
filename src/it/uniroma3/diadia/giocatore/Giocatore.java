@@ -13,7 +13,6 @@ public class Giocatore {
 		this.borsa = new Borsa(20);
 	}
 	
-	
 	public int getCfu() {
 		return this.cfu;
 	}
@@ -24,6 +23,13 @@ public class Giocatore {
 	
 	public Borsa getBorsa() {
 		return this.borsa;
+	}
+	
+	public boolean isVivo() {
+		if(this.cfu == 0)
+			return false;
+		else
+			return true;
 	}
 	
 }

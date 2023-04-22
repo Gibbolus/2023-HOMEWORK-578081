@@ -48,7 +48,7 @@ public class Partita {
 	}
 	
 	public Stanza getStanzaVincente() {
-		return stanzaVincente;
+		return this.stanzaVincente;
 	}
 	
 	public Stanza getStanzaCorrente() {
