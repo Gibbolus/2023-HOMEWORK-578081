@@ -4,7 +4,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class StanzaMagica extends Stanza{
 	
-	static final private int SOGLIA_MAGICA_DEAFULT = 3;
+	static final protected int SOGLIA_MAGICA_DEAFULT = 3;
 	private int contatoreAttrezziPosati;
 	private int sogliaMagica;
 	
