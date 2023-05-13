@@ -25,8 +25,8 @@ class LabirintoTest {
 	}
 
 	@Test
-	void testGetStanzaFinale() {
-		assertEquals(vincente, labirinto.getStanzaFinale());
+	void testGetStanzaVincente() {
+		assertEquals(vincente, labirinto.getStanzaVincente());
 	}
 	
 	

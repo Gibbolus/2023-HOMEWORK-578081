@@ -1,50 +1,63 @@
 package it.uniroma3.diadia.comandi;
 
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 
 class ComandoVaiTest {
-
-	private Comando comando;
+	
+	private static final String NOME_STANZA_PARTENZA = "partenza";
 	private Partita partita;
+	private Comando comandoVai;
+	private Stanza partenza;
+	private Labirinto labirinto;
 	
 	@BeforeEach
-	public void setUp() {
-		this.comando = new ComandoVai();
-		this.partita = new Partita();
-		Stanza stanzaCorrente = new Stanza("inizio");
-		this.partita.setStanzaCorrente(stanzaCorrente);
-		Stanza stanzaFinale = new Stanza("fine");
-		this.partita.setStanzaVincente(stanzaFinale);
-		stanzaCorrente.impostaStanzaAdiacente("nord", stanzaFinale);
-		this.comando.setParametro("nord");
-		this.comando.esegui(partita);
+	void setUp() {
+		this.comandoVai = new ComandoVai();
+		this.comandoVai.setIo(new IOConsole());
+		this.labirinto = new LabirintoBuilder()
+				.addStanzaIniziale(NOME_STANZA_PARTENZA)
+				.getLabirinto();
+		this.partita = new Partita(labirinto);
+		this.partenza = new Stanza(NOME_STANZA_PARTENZA);
+		this.partita.setStanzaCorrente(this.partenza);
+		
+		/* stanza esistente */
+		Stanza destinazione = new Stanza("destinazione");
+		this.partenza.impostaStanzaAdiacente("sud", destinazione);
 	}
-	
-	
+
 	@Test
-	void testEseguiNotNull() {
-		assertNotNull(this.comando);
-	}
-	
-	@Test
-	void testEsegui() {
-		assertEquals("fine", this.partita.getStanzaCorrente().getNome());
-	}
-	
-	@Test
-	void testGetNome() {
-		assertEquals("vai", this.comando.getNome());
+	public void testVaiStanzaNonEsistente() {
+		this.comandoVai.setParametro("nord");
+		this.comandoVai.esegui(this.partita);
+		assertEquals(NOME_STANZA_PARTENZA, this.partita.getStanzaCorrente().getNome());
 	}
 	
 	@Test
-	void testGetParametro() {
-		assertEquals("nord", this.comando.getParametro());
+	public void testVaiStanzaEsistente() {
+		this.comandoVai.setParametro("sud");
+		this.comandoVai.esegui(this.partita);
+		assertEquals("destinazione", this.partita.getStanzaCorrente().getNome());
+	}
+	
+	@Test
+	public void testVaiStanzaPresenteInDirezioneSbagliata() {
+		Stanza destinazione = new Stanza("Destinazione");
+		this.partenza.impostaStanzaAdiacente("sud", destinazione);
+		this.comandoVai.setParametro("nord");
+		this.comandoVai.esegui(partita);
+		assertEquals(NOME_STANZA_PARTENZA, this.partita.getStanzaCorrente().getNome());
 	}
 	
 
+	
 }

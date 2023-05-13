@@ -1,12 +1,11 @@
 package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 
 public class ComandoFine implements Comando{
 
-	public static IO io = new IOConsole();
+	private IO io;
 	
 	@Override
 	public void esegui(Partita partita) {
@@ -19,6 +18,11 @@ public class ComandoFine implements Comando{
 	}
 
 	@Override
+	public void setIo(IO io) {
+		this.io = io;
+	}	
+	
+	@Override
 	public String getNome() {
 		return "fine";
 	}
@@ -27,5 +31,5 @@ public class ComandoFine implements Comando{
 	public String getParametro() {
 		return null;
 	}
-
+ 
 }

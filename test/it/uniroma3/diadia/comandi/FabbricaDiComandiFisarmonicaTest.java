@@ -1,57 +1,60 @@
 package it.uniroma3.diadia.comandi;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class FabbricaDiComandiFisarmonicaTest {
+import it.uniroma3.diadia.IOConsole;
 
+class FabbricaDiComandiFisarmonicaTest {
+	
 	private FabbricaDiComandiFisarmonica factory;
 	
+	
+	
 	@BeforeEach
-	public void setUp() {
-		factory = new FabbricaDiComandiFisarmonica();		
+	void setUp() {
+		this.factory = new FabbricaDiComandiFisarmonica();
+	}
+
+	@Test
+	public void testAiuto() {
+		testNomeParametroComando("aiuto", "aiuto", null);
 	}
 	
 	@Test
-	void testComandoNonValido() {
-		Comando comando = factory.costruisciComando("");
-		assertNull(comando.getNome());
-		assertNull(comando.getParametro());
+	public void testVai() {
+		testNomeParametroComando("vai", "vai", "nord");
 	}
 	
 	@Test
-	void testComandoVai() {
-		Comando comando = factory.costruisciComando("vai sud");
-		assertEquals("vai", comando.getNome());
-		assertEquals("sud", comando.getParametro());
+	public void testFine() {
+		testNomeParametroComando("fine", "fine", null);
 	}
-	
 	@Test
-	void testComandoPrendi() {
-		Comando comando = factory.costruisciComando("prendi attrezzo");
-		assertEquals("prendi", comando.getNome());
-		assertEquals("attrezzo", comando.getParametro());
+	public void testPrendi() {
+		testNomeParametroComando("prendi", "prendi", "osso");
 	}
-	
 	@Test
-	void testComandoPosa() {
-		Comando comando = factory.costruisciComando("posa osso");
-		assertEquals("posa", comando.getNome());
-		assertEquals("osso", comando.getParametro());
+	public void testPosa() {
+		testNomeParametroComando("posa", "posa", "osso");
 	}
-	
 	@Test
-	void testComandoFine() {
-		Comando comando = factory.costruisciComando("fine");
-		assertEquals("fine", comando.getNome());
-		assertNull(comando.getParametro());
+	public void testComandoVuoto() {
+		testNomeParametroComando("", "non_valido", null);
 	}
-	
 	@Test
-	void testComandoGuarda() {
-		Comando comando = factory.costruisciComando("guarda");
-		assertEquals("guarda", comando.getNome());
-		assertNull(comando.getParametro());
+	public void testComandoNonValido() {
+		testNomeParametroComando("marameo!", "non_valido", null);
 	}
+	@Test
+	private void testNomeParametroComando(String nomeComando, String comandoAtteso, String parametro) {
+		Comando comando = this.factory.costruisciComando(nomeComando, new IOConsole());
+		if(parametro!=null)
+			comando.setParametro(parametro);
+		assertEquals(comandoAtteso, comando.getNome());
+		assertEquals(parametro, comando.getParametro());
+	}
+
 }

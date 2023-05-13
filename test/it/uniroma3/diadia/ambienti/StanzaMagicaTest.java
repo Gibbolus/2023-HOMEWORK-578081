@@ -34,7 +34,6 @@ class StanzaMagicaTest {
 	@Test
 	void testIsMagic() {
 		for(int i=0; i<StanzaMagica.SOGLIA_MAGICA_DEAFULT; i++) {
-			this.stanzaMagica.removeAttrezzo(attrezzo);
 			this.stanzaMagica.addAttrezzo(attrezzo);
 		}
 		assertTrue(this.stanzaMagica.hasAttrezzo("ozzertta"));
@@ -43,6 +42,7 @@ class StanzaMagicaTest {
 	
 	@Test
 	void testIsNotMagica() {
+		this.stanzaMagica.removeAttrezzo(attrezzo);
 		assertTrue(this.stanzaMagica.addAttrezzo(this.attrezzo));
 	}
 	
@@ -50,6 +50,8 @@ class StanzaMagicaTest {
 	@Test
 	void testAddAttrezzo() {
 		for(int i=0; i<StanzaMagica.SOGLIA_MAGICA_DEAFULT-1; i++)
+			this.stanzaMagica.addAttrezzo(attrezzo);
+			this.stanzaMagica.removeAttrezzo(attrezzo);
 			assertTrue(this.stanzaMagica.addAttrezzo(attrezzo));
 	}
 	

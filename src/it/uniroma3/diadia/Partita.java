@@ -21,12 +21,12 @@ public class Partita {
 	private Giocatore giocatore;
 	
 	
-	public Partita(){
-		labirinto = new Labirinto();
+	public Partita(Labirinto labirinto){
+		this.labirinto = labirinto;
 		giocatore = new Giocatore();
 		this.finita = false;
 		stanzaCorrente = labirinto.getStanzaCorrente();
-		stanzaVincente = labirinto.getStanzaFinale();
+		stanzaVincente = labirinto.getStanzaVincente();
 	}
 
  
@@ -77,6 +77,9 @@ public class Partita {
 		return giocatore;
 	}
 	
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
+	}
 	
 
 }

@@ -4,12 +4,11 @@ import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Borsa;
 import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 
 public class ComandoPrendi implements Comando{
 	private String attrezzo;
-	public static IO io = new IOConsole();
+	private IO io;
 	
 	@Override
 	public void esegui(Partita partita) {
@@ -28,7 +27,7 @@ public class ComandoPrendi implements Comando{
 			io.showMsg("Attrezzo preso");
 		}
 		else
-			io.showMsg("Attrezzo non trovato");
+			io.showMsg("Attrezzo non trovato o limite peso raggiunto");
 		io.showMsg(borsa.toString());
 	}
 
@@ -38,6 +37,11 @@ public class ComandoPrendi implements Comando{
 	}
 
 	@Override
+	public void setIo(IO io) {
+		this.io = io;
+	}	
+	
+	@Override
 	public String getNome() {
 		return "prendi";
 	}
@@ -46,5 +50,5 @@ public class ComandoPrendi implements Comando{
 	public String getParametro() {
 		return this.attrezzo;
 	}
-	
+
 }

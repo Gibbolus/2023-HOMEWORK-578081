@@ -74,7 +74,7 @@ public class Labirinto {
 		setStanzaVincente(biblioteca);
     }
 
-	public Stanza getStanzaFinale() {
+	public Stanza getStanzaVincente() {
 		return stanzaFinale;
 	}
 
