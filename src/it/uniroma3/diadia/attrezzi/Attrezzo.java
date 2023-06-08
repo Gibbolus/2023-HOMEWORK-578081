@@ -33,6 +33,12 @@ public class Attrezzo implements Comparable<Attrezzo>{
 		return this.nome;
 	}
 
+	
+	public void setPeso(int peso) {
+		this.peso = peso;
+	}
+	
+	
 	/**
 	 * Restituisce il peso dell'attrezzo
 	 * @return il peso dell'attrezzo

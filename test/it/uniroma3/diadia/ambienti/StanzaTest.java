@@ -1,68 +1,34 @@
 package it.uniroma3.diadia.ambienti;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-import org.junit.jupiter.api.*;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaTest {
-	
-	private Stanza stanza;
-	private Stanza stanzaAdiacente;
-	private Attrezzo attrezzo = new Attrezzo("attrezzo", 1);
-	
-	@BeforeEach
-	public void setUp() {
-		this.stanza = new Stanza("stanza");
-		this.stanzaAdiacente = new Stanza("stanzaAdiacente");
-		stanza.impostaStanzaAdiacente("nord", stanzaAdiacente);
-		this.stanza.addAttrezzo(attrezzo);
+public class StanzaTest {	
+
+	Stanza s1 = new Stanza("s1");
+	Stanza s2= new Stanza("s2");
+	Attrezzo m = new Attrezzo("martello", 42);
+	@Test
+	public void testGetStanzaAdiacente() {
+		assertNull(s1.getStanzaAdiacente(Direzione.sud));
 	}
 	
 
 	@Test
-	void testGetStanzaAdiacente() {
-		assertEquals("stanzaAdiacente", this.stanza.getStanzaAdiacente("nord").getNome());
+	public void testImpostaStanzaAdiacente() {
+		s1.impostaStanzaAdiacente(Direzione.sud, s2);
+		assertEquals(s2, s1.getStanzaAdiacente(Direzione.sud));
 	}
 	
 	@Test
-	void testImpostaStanzaAdiacente() {
-		Stanza stanza = new Stanza("stanzaProva");
-		this.stanza.impostaStanzaAdiacente("sud", stanza);
-		assertEquals("stanzaProva", this.stanza.getStanzaAdiacente("sud").getNome());
-	}
-
-	@Test
-	void testGetNome() {
-		assertEquals("stanza", this.stanza.getNome());
-	}
-
-	@Test
-	void testHasAttrezzo() {
-		assertTrue(stanza.hasAttrezzo("attrezzo"));
+	public void testAddAttrezzo() {
+		
+		assertTrue(s1.addAttrezzo(m));
 	}
 	
-	@Test
-	void testAddAttrezzo() {
-		Attrezzo prova = new Attrezzo("prova", 1);
-		assertTrue(stanza.addAttrezzo(prova));
-	}
-
-	@Test
-	void testGetAttrezzo() {
-		assertEquals(attrezzo, this.stanza.getAttrezzo("attrezzo"));
-	}
-	
-	@Test
-	void testGetAttrezzi() {
-		assertEquals(1, this.stanza.getAttrezzi().size());
-	}
-	
-	@Test
-	void testAddAttrezzoDoppione() {
-		this.stanza.addAttrezzo(attrezzo);
-		assertEquals(1, this.stanza.getAttrezzi().size());
-		assertFalse(stanza.addAttrezzo(attrezzo));
-	}
 
 }

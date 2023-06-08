@@ -1,62 +1,79 @@
 package it.uniroma3.diadia.comandi;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.Scanner;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.giocatore.Borsa;
 
-class ComandoPrendiTest {
-	
-	private static final String ARMA_NELLA_STANZA = "arma";
-	private ComandoPrendi comandoPrendi;
+public class ComandoPrendiTest {
+
 	private Partita partita;
-	private Labirinto labirinto;
+	private Attrezzo attrezzo;
+	private Attrezzo attrezzoPesante;
+	private Comando comando;
+	private IO io;
+	Labirinto labirinto;
 	
-	@BeforeEach
-	void setUp() {
-		this.comandoPrendi = new ComandoPrendi();
-		this.comandoPrendi.setIo(new IOConsole());
-		this.labirinto = new LabirintoBuilder()
-				.addStanzaIniziale("iniziale")
-				.getLabirinto();
-		this.partita = new Partita(labirinto);
-		Attrezzo nuovoAttrezzo = new Attrezzo(ARMA_NELLA_STANZA, 1);
-		this.partita.getStanzaCorrente().addAttrezzo(nuovoAttrezzo);
+	@Before
+	public void setUp() throws Exception {
+		 labirinto = Labirinto.newBuilder("labirinto2.txt").getLabirinto();
+//				new LabirintoBuilder()
+//				.addStanzaIniziale("Atrio")
+//				.addAttrezzo("martello", 3)
+//				.addStanzaVincente("Biblioteca")
+//				.addAdiacenza("Atrio", "Biblioteca", "nord")
+//				.getLabirinto();
+		partita = new Partita(labirinto);
+		attrezzo = new Attrezzo("martello", 2);
+		attrezzoPesante = new Attrezzo("incudine", 11);
+		comando = new ComandoPrendi();
+		io = new IOConsole(new Scanner(System.in));
+		comando.setIo(io);
 	}
 
-	@Test
-	public void testEseguiAttrezzoPresente() {
-		this.comandoPrendi.setParametro(ARMA_NELLA_STANZA);
-		this.comandoPrendi.esegui(partita);
-		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo(ARMA_NELLA_STANZA));
-		assertFalse(partita.getStanzaCorrente().hasAttrezzo(ARMA_NELLA_STANZA));
+
+	@After
+	public void tearDown() throws Exception {
 	}
 	
-	@Test
-	public void testEseguiAttrezzoNonPresente() {
-		String nonPresente = "calamaio";
-		this.comandoPrendi.setParametro(nonPresente);
-		this.comandoPrendi.esegui(partita);
-		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("calamaio"));
-		assertFalse(partita.getStanzaCorrente().hasAttrezzo("calamaio"));
-	}
-	
-	@Test
-	public void testEseguiBorsaPiena() {
-		Borsa borsa = partita.getGiocatore().getBorsa();
-		for (int i = 0; i < 10; i++) {
-			borsa.addAttrezzo(new Attrezzo("attrezzo"+i, 1));
+	public boolean attrezzoPresente(String s) {
+		//Set<Attrezzo> set = partita.getStanzaCorrente().getAttrezzi();
+		if(partita.getStanzaCorrente().getAttrezzo(s)==null)
+			return false;
+		return true;
 		}
-		this.comandoPrendi.setParametro(ARMA_NELLA_STANZA);
-		this.comandoPrendi.esegui(partita);
-		assertFalse(borsa.hasAttrezzo(ARMA_NELLA_STANZA));
-		assertTrue(partita.getStanzaCorrente().hasAttrezzo(ARMA_NELLA_STANZA));
+	
+	@Test
+	public void testAttrezzoPreso() {
+		partita.getStanzaCorrente().addAttrezzo(attrezzo);
+		comando.setParametro("martello");
+		comando.esegui(partita);
+		assertFalse(attrezzoPresente("martello"));
 	}
+	
+	@Test
+	public void testAttrezzoNonPresente() {
+		comando.setParametro("martello");
+		comando.esegui(partita);
+		assertFalse(attrezzoPresente("martello"));
+	}
+	
+	@Test
+	public void testAttrezzoPesante() {
+		partita.getStanzaCorrente().addAttrezzo(attrezzoPesante);
+		comando.setParametro("incudine");
+		comando.esegui(partita);
+		assertTrue(attrezzoPresente("incudine"));
+	}
+	
 }

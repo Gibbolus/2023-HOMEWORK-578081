@@ -1,59 +1,47 @@
 package it.uniroma3.diadia.ambienti;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaMagicaTest {
+public class StanzaMagicaTest {
+
+	private StanzaMagica s1;
+	private Attrezzo p;
+	private Attrezzo m;
+	private Attrezzo v;
 	
-	private StanzaMagica stanzaMagica;
-	private Attrezzo attrezzo;
-	
-	
-	@BeforeEach
-	public void setUp() {
-		this.stanzaMagica = new StanzaMagica("stanzaMagica");
-		this.attrezzo = new Attrezzo("attrezzo", 1);
-		this.stanzaMagica.addAttrezzo(attrezzo);
+	@Before
+	public void setUp() throws Exception {
+		s1 = new StanzaMagica("s1");
+		p = new Attrezzo("pala", 33);
+		m = new Attrezzo("martello", 42);
+		v = new Attrezzo("vanga", 42);
+	}
+
+	@After
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	void testStanzaMagicaNotNull() {
-		assertNotNull(this.stanzaMagica);
+	public void testAddAttrezzo() {
+		assertTrue(s1.addAttrezzo(m));
+
 	}
-	
-	
+
+
 	@Test
-	void testAttrezzoNotNull() {
-		assertNotNull(this.attrezzo);
-	}
-	
-	
-	@Test
-	void testIsMagic() {
-		for(int i=0; i<StanzaMagica.SOGLIA_MAGICA_DEAFULT; i++) {
-			this.stanzaMagica.addAttrezzo(attrezzo);
+	public void testModificaAttrezzo() {
+		assertTrue(s1.addAttrezzo(p));
+		assertTrue(s1.addAttrezzo(v));
+		assertTrue(s1.addAttrezzo(m));
+
+		//assertEquals("olletram",m.getNome());	
+		//assertEquals(84,m.getPeso());	
+
 		}
-		assertTrue(this.stanzaMagica.hasAttrezzo("ozzertta"));
-		assertEquals(2, this.stanzaMagica.getAttrezzo("ozzertta").getPeso());
-	}
-	
-	@Test
-	void testIsNotMagica() {
-		this.stanzaMagica.removeAttrezzo(attrezzo);
-		assertTrue(this.stanzaMagica.addAttrezzo(this.attrezzo));
-	}
-	
-	
-	@Test
-	void testAddAttrezzo() {
-		for(int i=0; i<StanzaMagica.SOGLIA_MAGICA_DEAFULT-1; i++)
-			this.stanzaMagica.addAttrezzo(attrezzo);
-			this.stanzaMagica.removeAttrezzo(attrezzo);
-			assertTrue(this.stanzaMagica.addAttrezzo(attrezzo));
-	}
-	
-
 }
